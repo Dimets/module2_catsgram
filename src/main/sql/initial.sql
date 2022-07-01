@@ -1,7 +1,7 @@
 create
 user kitty superuser; -- создать пользователя для проекта
 alter
-user kitty password 'purrrrrr'; -- задать пароль пользователя
+user kitty password 'purrr'; -- задать пароль пользователя
 create
 database cats with owner kitty; -- создать базу данных проекта и её владельца
 
@@ -20,11 +20,11 @@ create unique index user_id_uindex
 
 
 -- наполните таблицу пользователей первыми тестовыми записями
-INSERT INTO public.cat_user (id, username, nickname)
+INSERT INTO cat_user (id, username, nickname)
 VALUES ('tom', 'Thomas C. Andersun', 'neoc@t');
-INSERT INTO public.cat_user (id, username, nickname)
+INSERT INTO cat_user (id, username, nickname)
 VALUES ('grumpy', 'Альфред Хичкот', 'sca_a_a_ry');
-INSERT INTO public.cat_user (id, username, nickname)
+INSERT INTO cat_user (id, username, nickname)
 VALUES ('puss_in_boots', 'Basileus Felis F.', 'under_wood');
 
 create table cat_post
@@ -38,3 +38,13 @@ create table cat_post
         FOREIGN KEY (author_id)
             REFERENCES cat_user (id)
 ); -- затем создайте таблицу с постами пользователей — это то место, где будут храниться все котики
+
+CREATE TABLE IF NOT EXISTS public.cat_follow
+(
+    author_id character varying,
+    follower_id character varying,
+    CONSTRAINT fk_author FOREIGN KEY (author_id)
+        REFERENCES cat_user (id),
+    CONSTRAINT fk_follower FOREIGN KEY (follower_id)
+        REFERENCES cat_user (id)
+);
